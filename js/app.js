@@ -9,7 +9,7 @@ const loadAllProducts = async ()=> {
 const dispalyProduct =async () => {
     const myProducts =await loadAllProducts(); 
     const myProduct = myProducts.data.news_category ;
-    console.log(myProduct);
+    // console.log(myProduct);
     // console.log(myProducts.data.news_category); 
     const menu = document.getElementById('all-menu');
 
@@ -17,15 +17,19 @@ const dispalyProduct =async () => {
         // console.log(news.category_name);
         const li = document.createElement('li');
         li.innerHTML = `
-            <a class= "text-black-50 text-decoration-none px-4 ">${news.category_name}</a>
+            <a class= "text-black-50 text-decoration-none px-4 " type="button" >${news.category_name}</a>
         `
         menu.appendChild(li)
     }
 
-    // const uniqueArray = [];
     
     
     }
+
+    const loadAllData = document.getElementById('loadAllData');
+    loadAllData.addEventListener('click', function(){
+        
+    }) 
     
 
 dispalyProduct();
