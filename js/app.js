@@ -17,44 +17,106 @@ const dispalyProduct =async () => {
         // console.log(news.category_name);
         const li = document.createElement('li');
         li.innerHTML = `
-            <a id="newsButton" class= "text-black-50 text-decoration-none px-4 " type="button" >${news.category_name}</a>
+            <a onclick="loadCategoryDetails('${news.category_id}')" class= "text-black-50 text-decoration-none px-4 " type="button" >${news.category_name}</a>
         `
         menu.appendChild(li)
     }
+}
+        // load category data here 
 
-    
-    
-    }
+    const loadCategoryDetails = (idCat)=> {
+        // console.log(idCat);
+        const url = `https://openapi.programming-hero.com/api/news/category/${idCat}`;
+        // console.log(url);
+        fetch(url)
+            .then(res => res.json())
+            .then(data => displayCatDetails(data.data))    
+        }    
+
+
+        const displayCatDetails = cat =>{
+            // console.log(cat);
+            const catCountElemnet = document.getElementById('category_count_container');
+            catCountElemnet.innerText = (cat.length);
+
+
+            const categoryDetails = document.getElementById('cat-details');
+            // const div = document.createElement('div')
+            categoryDetails.innerHTML=`` ;
+            cat.forEach(cat => {
+                const catDiv = document.createElement('div');
+                catDiv.classList.add('col');
+                catDiv.innerHTML=`
+                <div class="card mb-3 mt-4" style="max-width: 540px;">
+                    <div class="row g-0 col" >
+                   
+                            <div class="col-lg-12 col-sm-4 ">
+                            <img src="${cat.image_url}" class="img-fluid rounded-start" alt="...">
+                            </div>
+
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">${cat.title}</h5>
+                                <p class="card-text" >${cat.details.slice(0 , 70)}...</p>
+                                <div class="card_footer ">
+                                    <img src="${cat.author.img}"  class="card-img-bottom img-thumbnail rounded-4 " alt="...">
+                                        
+                                        <span>${cat.author.name}</span>
+                                        <span>${cat.total_view}</span>
+                                        
+                                        </div>
+                                        <button class="btn btn-primary">Details</button>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    </div>
+                `;
+                categoryDetails.appendChild(catDiv);
+            });  
+           
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     // home button click to show alll news 
-    const loadHomeNews = ()=> {
-        fetch('https://openapi.programming-hero.com/api/news/category/01')
-        .then(res => res.json())
-        .then( allData = displayAllNews(allData));
-    }
-    const allNewsDisplay = document.getElementById('loadAllData');
-    const displayAllNews = newses => {
-        newses.forEach(news => { 
-            const newsDiv = document.createElement('div');
-            newsDiv.classList.add('news');
-            console.log(news);
-            newsDiv.innerHTML=`
-                <h2>News </h2>
-            `
-            allNewsDisplay.appendChild(div);
-        });
-    }
-    loadHomeNews();
+    // const loadHomeNews = ()=> {
+    //     fetch('https://openapi.programming-hero.com/api/news/category/01')
+    //     .then(res => res.json())
+    //     .then( allData = displayAllNews(allData));
+    // }
+    // const allNewsDisplay = document.getElementById('loadAllData');
+    // const displayAllNews = newses => {
+    //     newses.forEach(news => { 
+    //         const newsDiv = document.createElement('div');
+    //         newsDiv.classList.add('news');
+    //         console.log(news);
+    //         newsDiv.innerHTML=`
+    //             <h2>News </h2>
+    //         `
+    //         allNewsDisplay.appendChild(div);
+    //     });
+    // }
+    // loadHomeNews();
 
-    // document.getElementById('loadAllData').addEventListener('click', function(){
-    //     const newsButton = document.getElementById('newsButton');
-    //     const showNews = document.createElement('div');
+   
 
 
-    // })
 
-        
-    // }) ;
     
 dispalyProduct();
 loadAllProducts();
