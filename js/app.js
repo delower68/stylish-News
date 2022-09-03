@@ -1,8 +1,13 @@
 const loadAllProducts = async ()=> {
-    const res = await fetch("https://openapi.programming-hero.com/api/news/categories");
+    try{
+        const res = await fetch("https://openapi.programming-hero.com/api/news/categories");
     // console.log(res);
     const data = await res.json();
     return data ;
+    }
+    catch(error){
+        console.log(error);
+    }
     // console.log(data.data);
 }
 // display the all product 
@@ -23,92 +28,135 @@ const dispalyProduct =async () => {
     }
 }
         // load category data here 
+    
+        
+        const loadCategoryDetails = (idCat)=> {
 
-    const loadCategoryDetails = (idCat)=> {
+
+        // remove spinner 
+        const spinner = document.getElementById('spinner');
+        spinner.classList.remove('d-none');
+
+        
         // console.log(idCat);
         const url = `https://openapi.programming-hero.com/api/news/category/${idCat}`;
         // console.log(url);
-        fetch(url)
+        try{
+            fetch(url)
             .then(res => res.json())
-            .then(data => displayCatDetails(data.data))    
-        }    
-
-
-        const displayCatDetails = cat =>{
-            // console.log(cat);
-            const catCountElemnet = document.getElementById('category_count_container');
-            catCountElemnet.innerText = (cat.length);
-
-
-            const categoryDetails = document.getElementById('cat-details');
-            // const div = document.createElement('div')
-            categoryDetails.innerHTML=`` ;
-            cat.forEach(cat => {
-                const catDiv = document.createElement('div');
-                catDiv.classList.add('col');
-                catDiv.innerHTML=`
-                <div class="card mb-3 mt-4" style="max-width: 540px;">
-                    <div class="row g-0 col" >
-                   
-                            <div class="col-lg-12 col-sm-4 ">
-                            <img src="${cat.image_url}" class="img-fluid rounded-start" alt="...">
-                            </div>
-
-                        <div class="col-md-8">
-                            <div class="card-body">
-                                <h5 class="card-title">${cat.title ? cat.title: 'No Data'}</h5>
-                                <p class="card-text" >${cat.details.slice(0 , 70)? cat.details.slice(0 , 70): 'No Details'}...</p>
-                                <div class="card_footer ">
-                                    <img src="${cat.author.img? cat.author.img: 'No img here'}"  class="card-img-bottom img-thumbnail rounded-4 " alt="...">
-                                        
-                                        <span>${cat.author.name? cat.author.name: 'No author'}</span>
-                                        <span>View:${cat.total_view? cat.total_view:'Still no view'}</span>
-                                        
-                                        </div>
-                                        <!-- Button trigger modal -->
-                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" >
-                                            Detail
-                                            </button>
-
-                                            <!-- Modal -->
-                                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">${cat.rating.title ? cat.rating.title: 'No Data'}</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                <h5 class="card-title"></h5>
-                                                <p class="card-text" >${cat.details.slice(0 , 70)? cat.details.slice(0 , 70): 'No Details'}...</p>
-                                                <div class="card_footer ">
-                                                    <img src="${cat.author.img? cat.author.img: 'No img here'}"  class="card-img-bottom img-thumbnail rounded-4 " alt="...">
-                                                        
-                                                        <span>${cat.author.name? cat.author.name: 'No author'}</span>
-                                                        <span>View:${cat.total_view? cat.total_view:'Still no view'}</span>
-                                                        
-                                                        </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                    <button type="button" class="btn btn-primary">Save changes</button>
-                                                </div>
-                                                </div>
-                                            </div>
-                                            </div>
-                            </div>
-                        </div>
-
-
-                    </div>
-                    </div>
-                `;
-                categoryDetails.appendChild(catDiv);
-            });  
-           
-
-
+            .then(data => displayCatDetails(data.data))
+            
+            
         }
+        catch(error){
+            console.log(error);
+        }    
+    }
+   
+
+const displayCatDetails = cat =>{
+// console.log(cat);
+const catCountElemnet = document.getElementById('category_count_container');
+catCountElemnet.innerText = (cat.length + "  " + "items found ");
+catCountElemnet.classList.add('justify-content-center')
+
+
+
+const categoryDetails = document.getElementById('cat-details');
+// const div = document.createElement('div')
+
+// spinner stop here 
+spinner.classList.add('d-none');
+
+
+// categoryDetails.textContent = "";
+categoryDetails.innerHTML=`` ;
+cat.forEach(cat => {
+    const catDiv = document.createElement('div');
+    // catDiv.textContent= "";
+    
+    catDiv.classList.add('col');
+
+
+catDiv.innerHTML=`
+    <div class="card mb-3 mt-4" style="max-width: 1200px;">
+<div class="row g-0 col" >
+        
+        <div class="col-lg-4 col-sm-4 ">
+            <img src="${cat.image_url}" class=" img-fluid rounded-start me-4 " alt="...">
+        </div>
+
+    <div class="col-md-8">
+            <h5 class="card-title">${cat.title ? cat.title: 'No Data'}</h5>
+        <div class="card-body">
+                <p class="card-text" >${cat.details.slice(0 , 70)? cat.details.slice(0 , 70): 'No Details'}...</p>
+            <div class="card_footer col-lg-4 col-sm-4 d-flex ">
+                    <div>
+                        <img src="${cat.author.img? cat.author.img: 'No img here'}"  class=" thumbnail-img  " alt="...">
+                    </div
+                <div>
+                    <span class="">${cat.author.name? cat.author.name: 'No author'}</span>
+                    <span >View:${cat.total_view? cat.total_view:'no view'}'</span>
+                    <button id="modal-body" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        See more
+                    </button>
+                </div>
+            </div>
+
+
+    </div>
+</div>
+    `;
+categoryDetails.appendChild(catDiv);
+
+    }); 
+           
+}
+
+
+const modal = async id =>{
+    const url =`https://openapi.programming-hero.com/api/news/${id}`;
+
+    let data = {};
+    try{
+        const res = await fetch(url);
+        data = await res.json();
+
+    }catch(error){
+        console.log(error);
+    }
+
+    const {name, published_data, img} = data.data[0] ;
+    // console.log(img);
+    const modalBody = document.getElementById('modal-body')
+    // console.log(modalBody);
+    modalBody.textContent= "";
+    modalBody.innerHTML=`
+        // <p class="mb-3 ">Author Name : ${name? name: "name not found"}</p>
+        // <p class="mb-3 ">Published Data : ${published_data? published_data: "name not found"}</p>
+        
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+            </div>
+        </div>
+        </div>
+    `
+}
+modal();
 
 
 

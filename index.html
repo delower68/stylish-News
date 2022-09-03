@@ -17,6 +17,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <title>Stylist News</title>
+    <style>
+      .thumbnail-img{
+        border-radius: 50%;
+        height: 60px;
+      }
+    </style>
   </head>
   <body class="container">
     <header>
@@ -50,7 +56,16 @@
 
           </div>
         </section>
-        <section><span  id="category_count_container"></span> Items found for category Eintrtainment</section>
+
+        <!-- spinner here  -->
+        <section>
+          
+          <button id="spinner" class="btn btn-primary d-none" type="button" disabled>
+            <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+            Loading...
+          </button>
+        </section>
+        <section><span  id="category_count_container"></span> </section>
 
         <!-- show category here  -->
         <section id="cat-details">
