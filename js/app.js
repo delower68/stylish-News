@@ -56,16 +56,46 @@ const dispalyProduct =async () => {
 
                         <div class="col-md-8">
                             <div class="card-body">
-                                <h5 class="card-title">${cat.title}</h5>
-                                <p class="card-text" >${cat.details.slice(0 , 70)}...</p>
+                                <h5 class="card-title">${cat.title ? cat.title: 'No Data'}</h5>
+                                <p class="card-text" >${cat.details.slice(0 , 70)? cat.details.slice(0 , 70): 'No Details'}...</p>
                                 <div class="card_footer ">
-                                    <img src="${cat.author.img}"  class="card-img-bottom img-thumbnail rounded-4 " alt="...">
+                                    <img src="${cat.author.img? cat.author.img: 'No img here'}"  class="card-img-bottom img-thumbnail rounded-4 " alt="...">
                                         
-                                        <span>${cat.author.name}</span>
-                                        <span>${cat.total_view}</span>
+                                        <span>${cat.author.name? cat.author.name: 'No author'}</span>
+                                        <span>View:${cat.total_view? cat.total_view:'Still no view'}</span>
                                         
                                         </div>
-                                        <button class="btn btn-primary">Details</button>
+                                        <!-- Button trigger modal -->
+                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" >
+                                            Detail
+                                            </button>
+
+                                            <!-- Modal -->
+                                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">${cat.rating.title ? cat.rating.title: 'No Data'}</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                <h5 class="card-title"></h5>
+                                                <p class="card-text" >${cat.details.slice(0 , 70)? cat.details.slice(0 , 70): 'No Details'}...</p>
+                                                <div class="card_footer ">
+                                                    <img src="${cat.author.img? cat.author.img: 'No img here'}"  class="card-img-bottom img-thumbnail rounded-4 " alt="...">
+                                                        
+                                                        <span>${cat.author.name? cat.author.name: 'No author'}</span>
+                                                        <span>View:${cat.total_view? cat.total_view:'Still no view'}</span>
+                                                        
+                                                        </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                    <button type="button" class="btn btn-primary">Save changes</button>
+                                                </div>
+                                                </div>
+                                            </div>
+                                            </div>
                             </div>
                         </div>
 
