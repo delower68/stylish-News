@@ -24,7 +24,8 @@ const dispalyProduct =async () => {
         li.innerHTML = `
             <a onclick="loadCategoryDetails('${news.category_id}')" class= "text-black-50 text-decoration-none px-4 " type="button" >${news.category_name}</a>
         `
-        menu.appendChild(li)
+        menu.appendChild(li);
+
     }
 }
         // load category data here 
@@ -33,11 +34,12 @@ const dispalyProduct =async () => {
         const loadCategoryDetails = (idCat)=> {
 
 
-        // remove spinner 
-        const spinner = document.getElementById('spinner');
-        spinner.classList.remove('d-none');
-
         
+
+
+            // remove spinner 
+            const spinner = document.getElementById('spinner');
+            spinner.classList.remove('d-none');  
         // console.log(idCat);
         const url = `https://openapi.programming-hero.com/api/news/category/${idCat}`;
         // console.log(url);
@@ -50,29 +52,39 @@ const dispalyProduct =async () => {
         }
         catch(error){
             console.log(error);
-        }    
+        }  
     }
-   
-
-const displayCatDetails = cat =>{
+    
+    
+    const displayCatDetails = cat =>{
 // console.log(cat);
 const catCountElemnet = document.getElementById('category_count_container');
+
+// data found 
+
+if (cat.length===0) {
+    catCountElemnet.innerText = ('Sorry! No data found')
+}
+else{
 catCountElemnet.innerText = (cat.length + "  " + "items found ");
-catCountElemnet.classList.add('justify-content-center')
+
+}
+
 
 
 
 const categoryDetails = document.getElementById('cat-details');
 // const div = document.createElement('div')
 
+
 // spinner stop here 
 spinner.classList.add('d-none');
-
 
 // categoryDetails.textContent = "";
 categoryDetails.innerHTML=`` ;
 cat.forEach(cat => {
     const catDiv = document.createElement('div');
+    
     // catDiv.textContent= "";
     
     catDiv.classList.add('col');
@@ -83,11 +95,11 @@ catDiv.innerHTML=`
 <div class="row g-0 col" >
         
         <div class="col-lg-4 col-sm-4 ">
-            <img src="${cat.image_url}" class=" img-fluid rounded-start me-4 " alt="...">
+            <img src="${cat.image_url? cat.image_url: 'Here got no image'}" class=" img-fluid rounded-start me-4 " alt="...">
         </div>
 
     <div class="col-md-8">
-            <h5 class="card-title">${cat.title ? cat.title: 'No Data'}</h5>
+            <h5 class="card-title">${cat.title ? cat.title: 'No Title here'}</h5>
         <div class="card-body">
                 <p class="card-text" >${cat.details.slice(0 , 70)? cat.details.slice(0 , 70): 'No Details'}...</p>
             <div class="card_footer col-lg-4 col-sm-4 d-flex ">
@@ -95,8 +107,8 @@ catDiv.innerHTML=`
                         <img src="${cat.author.img? cat.author.img: 'No img here'}"  class=" thumbnail-img  " alt="...">
                     </div
                 <div>
-                    <span class="">${cat.author.name? cat.author.name: 'No author'}</span>
-                    <span >View:${cat.total_view? cat.total_view:'no view'}'</span>
+                    <span class="">${cat.author.name? cat.author.name: 'null'}</span>
+                    <span >View:${cat.total_view? cat.total_view:'null'}'</span>
                     <button id="modal-body" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                         See more
                     </button>
@@ -131,9 +143,10 @@ const modal = async id =>{
     const modalBody = document.getElementById('modal-body')
     // console.log(modalBody);
     modalBody.textContent= "";
-    modalBody.innerHTML=`
+    modalBody.innerHTML=
+    `
         // <p class="mb-3 ">Author Name : ${name? name: "name not found"}</p>
-        // <p class="mb-3 ">Published Data : ${published_data? published_data: "name not found"}</p>
+        // <p class="mb-3 ">Published Data : $published_data? published_data: "name not found"}</p>
         
 
         <!-- Modal -->
@@ -156,53 +169,15 @@ const modal = async id =>{
         </div>
     `
 }
-modal();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // home button click to show alll news 
-    // const loadHomeNews = ()=> {
-    //     fetch('https://openapi.programming-hero.com/api/news/category/01')
-    //     .then(res => res.json())
-    //     .then( allData = displayAllNews(allData));
-    // }
-    // const allNewsDisplay = document.getElementById('loadAllData');
-    // const displayAllNews = newses => {
-    //     newses.forEach(news => { 
-    //         const newsDiv = document.createElement('div');
-    //         newsDiv.classList.add('news');
-    //         console.log(news);
-    //         newsDiv.innerHTML=`
-    //             <h2>News </h2>
-    //         `
-    //         allNewsDisplay.appendChild(div);
-    //     });
-    // }
-    // loadHomeNews();
-
-   
-
-
-
-    
+modal();    
 dispalyProduct();
 loadAllProducts();
 
 // blog post here 
 
 document.getElementById('blog-post').addEventListener('click', function(){
-    const blog = document.getElementById('question-show')
+    const blog = document.getElementById('question-show');
+    blog.textContent="";
     const div = document.createElement('div')
     div.classList.add('div')
     div.innerHTML = `
