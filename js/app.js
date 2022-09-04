@@ -102,18 +102,18 @@ catDiv.innerHTML=`
         </div>
 
     <div class="col-md-8">
-            <h5 class="card-title">${cat.title ? cat.title: 'No Title here'}</h5>
+            <h5 class="card-title ms-3 mt-3">${cat.title ? cat.title: 'No Title here'}</h5>
         <div class="card-body">
                 <p class="card-text" >${cat.details.slice(0 , 70)? cat.details.slice(0 , 70): 'No Details'}...</p>
-            <div class="card_footer col-lg-4 col-sm-4 d-flex ">
+            <div class="card_footer col-lg-4 col-sm-4 d-lg-flex d-sm-block ">
                     <div>
                         <img src="${cat.author.img? cat.author.img: 'No img here'}"  class=" thumbnail-img  " alt="...">
                     </div
                 <div>
                     <span class="">${cat.author.name? cat.author.name: 'null'}</span>
                     <span class="ms-4" >View:${cat.total_view? cat.total_view:'null'}'</span>
-                    <button id="modal-body" type="button" class="btn btn-primary ms-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                        See
+                    <button id="modal-btn" onclick="modalDetails('${cat._id}')" type="button" class="btn btn-primary ms-5" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                        Details
                     </button>
                 </div>
             </div>
@@ -129,52 +129,41 @@ categoryDetails.appendChild(catDiv);
 }
 
 
-const modal = async id =>{
-    const url =`https://openapi.programming-hero.com/api/news/${id}`;
+// modal here 
 
-    let data = {};
-    try{
-        const res = await fetch(url);
-        data = await res.json();
+const modalDetails = cat_id =>{
+    const url = `https://openapi.programming-hero.com/api/news/${cat_id}`
+   
+      fetch(url)
+      .then(Response => Response.json())
+      .then(data => showModalDetails(data.data[0]))
+  }
+ 
+  
 
-    }catch(error){
-        console.log(error);
-    }
+  const showModalDetails = modalInfo =>{
+    const modaltitle = document.getElementById('modal-tittle')
+    modaltitle.innerText = `${modalInfo.title}` 
 
-    const {name, published_data, img} = data.data[0] ;
-    // console.log(img);
-    const modalBody = document.getElementById('modal-body')
-    // console.log(modalBody);
-    modalBody.textContent= "";
-    modalBody.innerHTML=
-    `
-        // <p class="mb-3 ">Author Name : ${name? name: "name not found"}</p>
-        // <p class="mb-3 ">Published Data : $published_data? published_data: "name not found"}</p>
-        
+    const modal = document.getElementById('modal-body');
+    modal.innerHTML = '';
+    const div = document.createElement('div');
+    div.innerHTML = `
+        <img src="${modalInfo.image_url? modalInfo.image_url: 'Here got no image'}" class=" img-fluid rounded-start me-4 " alt="...">
+        <p>Publish-Date: ${modalInfo.author.published_date} </p>
 
-        <!-- Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
-            </div>
-        </div>
-        </div>
-    `
-}
-modal();    
-dispalyProduct();
-loadAllProducts();
+        <img src="${modalInfo.author.img? modalInfo.author.img: 'No img here'}"  class=" thumbnail-img  " alt="...">
+        <p>Author Name: ${modalInfo.author.name} </p>
+      
+    `;
+    modal.appendChild(div)
+  }
+
+  modalDetails()
+
+  
+  dispalyProduct();
+  loadAllProducts();
 
 // blog post here 
 
