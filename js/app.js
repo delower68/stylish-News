@@ -58,6 +58,9 @@ const dispalyProduct =async () => {
     
     const displayCatDetails = cat =>{
 // console.log(cat);
+cat.sort(function(a,b){
+    return b.total_view - a.total_view
+});
 const catCountElemnet = document.getElementById('category_count_container');
 
 // data found 
@@ -108,9 +111,9 @@ catDiv.innerHTML=`
                     </div
                 <div>
                     <span class="">${cat.author.name? cat.author.name: 'null'}</span>
-                    <span >View:${cat.total_view? cat.total_view:'null'}'</span>
-                    <button id="modal-body" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                        See more
+                    <span class="ms-4" >View:${cat.total_view? cat.total_view:'null'}'</span>
+                    <button id="modal-body" type="button" class="btn btn-primary ms-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        See
                     </button>
                 </div>
             </div>
